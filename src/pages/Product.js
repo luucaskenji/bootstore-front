@@ -30,7 +30,9 @@ export default function Product () {
                     <p>
                         Incensário indiano folha canoa. Metal prateado, 22 cm e pedrinha de cores variadas: vermelho, laranja, azul, verde e roxo!
                     </p>
-                    <MainButton clicked={clicked}>Adicionar ao carrinho</MainButton>
+                    <MainButton clicked={clicked}>
+                        {clicked ? 'Adicionando' : 'Adicionar'} ao carrinho
+                    </MainButton>
                 </DescriptionSection>
             </Main>
         </OutterBox>
@@ -44,7 +46,7 @@ const Main = styled.main`
     width: 850px;
 
     section {
-        background-color: rgba(250,250,250,0.4);
+        background-color: rgba(250,250,250,0.8);
         border-radius: 25px;
         height: 600px;
         width: 400px;
@@ -71,6 +73,7 @@ const DescriptionSection = styled.section`
     }
 `;
 
+//object-fit: contain;
 const PhotoSection = styled.section`
     .main-photo {
         align-items: center;
