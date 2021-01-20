@@ -28,7 +28,7 @@ const HeaderContainer = styled.header`
     color: #FFFFFF;
 
     h1 {
-        font: 30px 'Merienda', cursive;
+        font: 32px 'Merienda', cursive;
         margin-left: 10px;
     }
 `;
