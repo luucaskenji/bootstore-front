@@ -22,14 +22,13 @@ const HeaderContainer = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    height: 70px;
+    padding: 0 20px;
     background: #38B2B8;
     color: #FFFFFF;
-    font-family: sans-serif;
 
     h1 {
-        font-size: 22px;
-        font-weight: 400;
+        font: 30px 'Merienda', cursive;
         margin-left: 10px;
     }
 `;
@@ -38,7 +37,7 @@ const Logo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 35px;
+    height: 50px;
 
     img {
         height: 100%;
