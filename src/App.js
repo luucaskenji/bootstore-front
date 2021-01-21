@@ -16,7 +16,8 @@ import { CartProvider } from './contexts/CartContext';
 export default function App() {
 return (
   <Router>
-    <Header />
+    <CartProvider>
+      <Header />
       <Switch>
         <Route path='/compra-concluida' component={FinalPage} />
         <Route path='/pagamento/cartao' component={CreditCard} />
@@ -28,6 +29,8 @@ return (
         <Route path='/produto/:id' component={Product} />
         <Route path='/' component={HomePage} />
       </Switch>
+    </CartProvider>
+      
     </Router>
   );
 }
