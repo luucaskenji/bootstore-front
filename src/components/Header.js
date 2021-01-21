@@ -1,11 +1,12 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FiArrowLeftCircle } from 'react-icons/fi';
 
 export default function Header() {
     const history = useHistory();
+    const currentRoute = useLocation();
 
     return (
         <HeaderContainer>
@@ -14,16 +15,27 @@ export default function Header() {
                 <h1>MeditAí</h1>
             </Logo>
             <IconsDiv>
-                <button>
-                    <FiArrowLeftCircle />
-                    <p>Voltar</p>
-                </button>
-                <button onClick={() => history.push('/carrinho')}>
-                    <FaShoppingCart />
-                    <p>Carrinho</p>
-                </button>
+                {currentRoute.pathname === '/'
+                    ? (
+                        <Link to='/carrinho'>
+                            <FaShoppingCart />
+                            <p>Carrinho</p>
+                        </Link>
+                    )
+                    : (
+                        <>
+                        <Link to='/'>
+                            <FiArrowLeftCircle />
+                            <p>Voltar</p>
+                        </Link>
+                        <Link to='/carrinho'>
+                            <FaShoppingCart />
+                            <p>Carrinho</p>
+                        </Link>
+                        </>
+                    )
+                } 
             </IconsDiv>
-            
         </HeaderContainer>
     );
 }
@@ -55,16 +67,17 @@ const Logo = styled.div`
     }
 `;
 
-const IconsDiv = styled.div` 
+const IconsDiv = styled.div`
     display: flex;
 
-    button {
+    a {
         align-items: center;
         display: flex;
         flex-direction: column;
         font-size: 25px;
         justify-content: space-between;
         margin-left: 15px;
+        
         p {
             font-size: 17px;
             font-weight: 400;
