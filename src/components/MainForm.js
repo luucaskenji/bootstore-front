@@ -38,5 +38,4 @@ const MainForm = styled.form`
     }
 `;
 
-
 export default MainForm;

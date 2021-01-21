@@ -100,3 +100,6 @@ const PhotoSection = styled.section`
         }
     }
 `;
+
+//border-radius: 7px;
+// box-shadow: 3px 2px 10px 1px #B7B5B2;

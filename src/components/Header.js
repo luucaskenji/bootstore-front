@@ -1,8 +1,11 @@
 import React from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaShoppingCart } from 'react-icons/fa';
+import { FiArrowLeftCircle } from 'react-icons/fi';
 
 export default function Header() {
+    const history = useHistory();
 
     return (
         <HeaderContainer>
@@ -10,10 +13,17 @@ export default function Header() {
                 <img src='/images/logo.png' alt='voltar à página principal'/>
                 <h1>MeditAí</h1>
             </Logo>
-            <Icon>
-                <FaShoppingCart />
-                <p>Carrinho</p>
-            </Icon>
+            <IconsDiv>
+                <button>
+                    <FiArrowLeftCircle />
+                    <p>Voltar</p>
+                </button>
+                <button>
+                    <FaShoppingCart />
+                    <p>Carrinho</p>
+                </button>
+            </IconsDiv>
+            
         </HeaderContainer>
     );
 }
@@ -45,15 +55,20 @@ const Logo = styled.div`
     }
 `;
 
-const Icon = styled.div`
+const IconsDiv = styled.div` 
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 25px;
 
-    p {
-        font-size: 17px;
-        font-weight: 400;
+    button {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        font-size: 25px;
+        justify-content: space-between;
+        margin-left: 15px;
+        p {
+            font-size: 17px;
+            font-weight: 400;
+            margin-top: 5px;
+        }
     }
 `;
