@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Dinero from 'dinero.js'; 
+import { Link } from 'react-router-dom';
 
 export default function Product(props) {
     const { name, price, image } = props;
@@ -9,9 +10,9 @@ export default function Product(props) {
 
     return(
         <ProductContainer>
-            <img src={image} />
+            <Link to='/product'><img src={image} /></Link>
             <Caption>
-                <p>{name}</p>
+                <Link to='/product'><p>{name}</p></Link>
                 <span>{correctPrice}</span>
             </Caption>
         </ProductContainer>
@@ -22,15 +23,32 @@ const ProductContainer = styled.li`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-right: 10px;
-    height: 180px;
-    width: 120px;
+    min-width: 170px;
+    width: 13vw;
+    margin-right: 50px;
     border-radius: 7px;
-    box-shadow: 5px 5px 2px #B7B5B2;
+    box-shadow: 3px 2px 10px 1px #B7B5B2;
+
+    img {
+        width: 100%;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+    }
 `;
 
 const Caption = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 10px;
+
+    p {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    span {
+        font-size: 15px;
+        font-weight: 700;
+    }
 `;

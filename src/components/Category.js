@@ -6,16 +6,19 @@ import Product from '../components/Product';
 export default function Category(props) {
     const { name } = props;
     const { products } = useContext(ProductContext);
+    const filteredProducts = products.filter(p => p.categories.find(c => c.name === name));
+
+    if(filteredProducts.length === 0) {
+        return <></>
+    }
 
     return(
         <CategoryContainer>
             <h2>{name}</h2>
-            <Products>
-                {products.filter(p => {
-                    for(let i=0; i<p.categories; i++) {
-                        return p.categories[i].name === name;
-                    }
-                }).map(fp => <Product key={fp.id} name={fp.name} price={fp.price} image={fp.mainPicture}/>)}
+            <Products> 
+                {filteredProducts.map(fp => {
+                    return <Product key={fp.id} name={fp.name} price={fp.price} image={fp.mainPicture}/>
+                })}
             </Products>
         </CategoryContainer>
     );
@@ -25,14 +28,13 @@ const CategoryContainer = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 15px;
-    padding: 10px;
+    margin: 15px 30px;
+    padding-bottom: 10px;
     overflow-x: scroll;
 
     h2 {
-        font-size: 22px;
-        font-weight: 500;
-        margin-bottom: 12px;
+        font-size: 27px;
+        margin-bottom: 20px;
     }
 `;
 

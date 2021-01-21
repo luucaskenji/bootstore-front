@@ -1,1 +1,6 @@
-@import url('');
+@import url('https://fonts.googleapis.com/css2?family=Merienda&display=swap');
+
+body {
+    background-color: #F5F2EE;
+    font-family: 'Candara', sans-serif;
+}

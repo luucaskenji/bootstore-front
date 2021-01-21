@@ -10,9 +10,7 @@ export default function TopSelling(props) {
         <TopSellingContainer>
             <h2>Destaques</h2>
             <Products>
-                {products.filter(p => {
-                    
-                }).map(fp => <Product key={fp.id} name={fp.name} price={fp.price} image={fp.mainPicture}/>)}
+                <h3>INSERIR PRODUTOS EM DESTAQUE AQUI!!!</h3>
             </Products>
         </TopSellingContainer>
     );

@@ -1,8 +1,12 @@
 import React from 'react';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaShoppingCart } from 'react-icons/fa';
+import { FiArrowLeftCircle } from 'react-icons/fi';
 
 export default function Header() {
+    const history = useHistory();
+    const currentRoute = useLocation();
 
     return (
         <HeaderContainer>
@@ -10,10 +14,28 @@ export default function Header() {
                 <img src='/images/logo.png' alt='voltar à página principal'/>
                 <h1>MeditAí</h1>
             </Logo>
-            <Icon>
-                <FaShoppingCart />
-                <p>Carrinho</p>
-            </Icon>
+            <IconsDiv>
+                {currentRoute.pathname === '/'
+                    ? (
+                        <button>
+                            <FaShoppingCart />
+                            <p>Carrinho</p>
+                        </button>
+                    )
+                    : (
+                        <>
+                        <button>
+                            <FiArrowLeftCircle />
+                            <p>Voltar</p>
+                        </button>
+                        <button>
+                            <FaShoppingCart />
+                            <p>Carrinho</p>
+                        </button>
+                        </>
+                    )
+                } 
+            </IconsDiv>
         </HeaderContainer>
     );
 }
@@ -22,14 +44,13 @@ const HeaderContainer = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    height: 70px;
+    padding: 0 20px;
     background: #38B2B8;
     color: #FFFFFF;
-    font-family: sans-serif;
 
     h1 {
-        font-size: 22px;
-        font-weight: 400;
+        font: 32px 'Merienda', cursive;
         margin-left: 10px;
     }
 `;
@@ -38,7 +59,7 @@ const Logo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 35px;
+    height: 50px;
 
     img {
         height: 100%;
@@ -46,15 +67,21 @@ const Logo = styled.div`
     }
 `;
 
-const Icon = styled.div`
+const IconsDiv = styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 25px;
 
-    p {
-        font-size: 17px;
-        font-weight: 400;
+    button {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        font-size: 25px;
+        justify-content: space-between;
+        margin-left: 15px;
+
+        p {
+            font-size: 17px;
+            font-weight: 400;
+            margin-top: 5px;
+        }
     }
 `;
