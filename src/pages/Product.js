@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import MainButton from '../components/MainButton';
 import { useCartContext } from '../contexts/CartContext';
+import ProductProvider from '../contexts/ProductContext';
 
 export default function Product() {
     const history = useHistory();
@@ -13,7 +14,7 @@ export default function Product() {
     const [clicked, setClicked] = useState(false);
     const [product, setProduct] = useState(null);
     const [mainPhoto, setMainPhoto] = useState(null);
-    console.log(cart);
+
     useEffect(() => {
         axios.get(`http://localhost:3000/products/${id}`)
             .then(res => {
@@ -30,6 +31,7 @@ export default function Product() {
         } else {
             setCart([...cart, { product, quantity: 1 }])
         }
+        setClicked(true);
     }
 
 if (product === null) {
@@ -52,12 +54,12 @@ return (
 
             <DescriptionSection className='description'>
                 <h2>{product.name}</h2>
-                <h3>{`R$ ${product.price / 100}`}</h3>
+                <h3>{product.units > 0 ? `R$ ${product.price / 100}` : 'Produto indisponível'}</h3>
                 <p>
                     {product.description}
                 </p>
                 <MainButton clicked={clicked} onClick={updateCart}>
-                    {clicked ? 'Adicionando' : 'Adicionar'} ao carrinho
+                    {product.units > 0 ? clicked ? 'Adicionando ao carrinho' : 'Adicionar ao carrinho' : 'Produto Indisponível'} 
                     </MainButton>
             </DescriptionSection>
         </Main>

@@ -24,10 +24,10 @@ export default function Header() {
                     )
                     : (
                         <>
-                        <Link to='/'>
+                        <a onClick={()=>history.goBack()}>
                             <FiArrowLeftCircle />
                             <p>Voltar</p>
-                        </Link>
+                        </a>
                         <Link to='/carrinho'>
                             <FaShoppingCart />
                             <p>Carrinho</p>
@@ -77,7 +77,7 @@ const IconsDiv = styled.div`
         font-size: 25px;
         justify-content: space-between;
         margin-left: 15px;
-        
+        cursor:pointer;
         p {
             font-size: 17px;
             font-weight: 400;
