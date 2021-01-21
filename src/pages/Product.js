@@ -34,6 +34,8 @@ export default function Product() {
                 setCart([...cart, { product, quantity: 1 }])
             }
         }
+
+        history.push('/');
     }
 
     if (product === null) {
