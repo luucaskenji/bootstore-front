@@ -4,33 +4,64 @@ import axios from 'axios';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import MainButton from '../components/MainButton';
+import { useCartContext } from '../contexts/CartContext';
 
-export default function Product () {
+export default function Product() {
     const history = useHistory();
     const { id } = useParams();
-    const [ clicked, setClicked ] = useState(false);
-  
+    const { cart, setCart } = useCartContext();
+    const [clicked, setClicked] = useState(false);
+    const [product, setProduct] = useState(null);
+    const [mainPhoto, setMainPhoto] = useState(null);
+    console.log(cart);
+    useEffect(() => {
+        axios.get(`http://localhost:3000/products/${id}`)
+            .then(res => {
+                setProduct(res.data);
+                setMainPhoto(res.data.mainPicture);
+            });
+    }, []);
+    
+    function updateCart() {
+        if (!cart) {
+            setCart([{ product, quantity: 0 }]);
+        } else {
+            const cartProduct = cart.find(o => o.product.id === product.id);
+            if(cartProduct){
+                cartProduct.quantity = cartProduct.quantity + 1;
+                setCart([...cart]);
+            } else{
+                setCart([...cart, { product, quantity: 1 }])
+            }
+        }
+    }
+
+    if (product === null) {
+        //add loading;
+        return <h1>loading</h1>;
+    }
     return (
         <OutterBox>
             <Main>
                 <PhotoSection>
                     <div className='main-photo'>
-                        <img src='/images/temporary.jpeg' />
+                        {<img src={mainPhoto} />}
                     </div>
                     <div className='photo-menu'>
-                        <img src='/images/temporary.jpeg' />
-                        <img src='/images/temporary.jpeg' />
-                        <img src='/images/temporary.jpeg' />
+                        <img src={product.mainPicture} onClick={() => setMainPhoto(product.mainPicture)} />
+                        {product.pictures.map(p =>
+                            <img src={p.url} key={p.id} onClick={() => setMainPhoto(p.url)} />
+                        )}
                     </div>
                 </PhotoSection>
 
                 <DescriptionSection className='description'>
-                    <h2>Incensário Indiano Buddha</h2>
-                    <h3>R$ 39</h3>
+                    <h2>{product.name}</h2>
+                    <h3>{`R$ ${product.price / 100}`}</h3>
                     <p>
-                        Incensário indiano folha canoa. Metal prateado, 22 cm e pedrinha de cores variadas: vermelho, laranja, azul, verde e roxo!
+                        {product.description}
                     </p>
-                    <MainButton clicked={clicked}>
+                    <MainButton clicked={clicked} onClick={updateCart}>
                         {clicked ? 'Adicionando' : 'Adicionar'} ao carrinho
                     </MainButton>
                 </DescriptionSection>
@@ -97,6 +128,7 @@ const PhotoSection = styled.section`
             height: 80px;
             margin-right: 10px;
             width: 80px;
+            cursor: pointer;
         }
     }
 `;

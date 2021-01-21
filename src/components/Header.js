@@ -18,7 +18,7 @@ export default function Header() {
                     <FiArrowLeftCircle />
                     <p>Voltar</p>
                 </button>
-                <button>
+                <button onClick={() => history.push('/carrinho')}>
                     <FaShoppingCart />
                     <p>Carrinho</p>
                 </button>

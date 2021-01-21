@@ -10,21 +10,25 @@ import PaymentChoice from './pages/PaymentChoice';
 import PaymentSlip from './pages/PaymentSlip';
 import CreditCard from './pages/CreditCard';
 import Header from './components/Header';
+import { CartProvider } from './contexts/CartContext';
 
 export default function App() {
-return (
-  <Router>
-    <Header />
-      <Switch>
-        <Route path='/pagamento/cartao' component={CreditCard} />
-        <Route path='/pagamento/boleto' component={PaymentSlip} />
-        <Route path='/escolher-pagamento' component={PaymentChoice} />
-        <Route path='/endereco' component={AddressData} />
-        <Route path='/dados-pessoais' component={PersonalData} />
-        <Route path='/carrinho' component={Cart} />
-        <Route path='/produto/:id' component={Product} />
-        <Route path='/' component={HomePage} />
-      </Switch>
+  return (
+
+    <Router>
+      <CartProvider>
+        <Header />
+        <Switch>
+          <Route path='/pagamento/cartao' component={CreditCard} />
+          <Route path='/pagamento/boleto' component={PaymentSlip} />
+          <Route path='/escolher-pagamento' component={PaymentChoice} />
+          <Route path='/endereco' component={AddressData} />
+          <Route path='/dados-pessoais' component={PersonalData} />
+          <Route path='/carrinho' component={Cart} />
+          <Route path='/produto/:id' component={Product} />
+          <Route path='/' component={HomePage} />
+        </Switch>
+      </CartProvider>
     </Router>
   );
 }

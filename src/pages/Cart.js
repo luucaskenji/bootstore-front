@@ -4,54 +4,57 @@ import axios from 'axios';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import MainButton from '../components/MainButton';
+import { useCartContext } from '../contexts/CartContext';
+import QuantityButtons from '../components/QuantityButtons';
 
-export default function Cart () {
+export default function Cart() {
     const history = useHistory();
-    const [ clicked, setClicked ] = useState(false);
-    const [ quantity, setQuantity ] = useState(0);
-  
+    const { cart, setCart } = useCartContext();
+    const [clicked, setClicked] = useState(false);
+    const [quantity, setQuantity] = useState(0);
+    let [total, setTotal] = useState(0);
     return (
         <OutterBox>
             <Title>Meu carrinho</Title>
             <Main>
                 <ProductsList>
-                    <ProductLi>
-                        <div className='img-box'>
-                            <img src='/images/temporary.jpeg' />
-                        </div>
+                    {cart.map(item =>
+                        <ProductLi>
+                            <div className='img-box'>
+                                <img src={item.product.mainPicture} />
+                            </div>
 
-                        <DescriptionBox>
-                            <h3>R$197</h3>
-                            <p>O tapete de yoga clássico que não esfarela</p>
-                            <QuantityButtons quantity={quantity} />
-                        </DescriptionBox>
-                    </ProductLi>
-                   
+                            <DescriptionBox>
+                                <h3>{`R$ ${item.product.price / 100}`}</h3>
+                                <p>{item.product.description}</p>
+                                <QuantityButtons item={item} />
+                            </DescriptionBox>
+                        </ProductLi>
+                    )}
+
                 </ProductsList>
 
                 <TotalSection className='description'>
                     <h2>Total no carrinho</h2>
 
                     <PriceList>
-                        <li>
-                            <p>Calça Legging Levi</p>
-                            <p>R$197</p>
-                        </li>
-                        <li>
-                            <p>Calça Legging Levi</p>
-                            <p>R$197</p>
-                        </li>
-                        <li>
-                            <p>Calça Legging Levi</p>
-                            <p>R$197</p>
-                        </li>
+                        {cart.map(item => {
+                            total += item.product.price * item.quantity;
+                            return (
+                                <li>
+                                    <p>{`${item.quantity}x`}</p>
+                                    <p>{item.product.name}</p>
+                                    <p>{`R$ ${item.quantity * (item.product.price / 100)}`}</p>
+                                </li>
+                            )
+                        })}
                     </PriceList>
 
                     <TotalSpan>
                         <p>Total</p>
-                        <p>R$255</p>
+                        <p>{`R$ ${total / 100}`}</p>
                     </TotalSpan>
-                    
+
                     <MainButton clicked={clicked}>
                         {clicked ? 'Fechando' : 'Fechar'} compra
                     </MainButton>
@@ -61,16 +64,12 @@ export default function Cart () {
     );
 }
 
-function QuantityButtons (props) {
-    const { quantity } = props;
-    return (
-        <QuantityBox>+  {quantity}  -</QuantityBox>
-    );
-}
 const QuantityBox = styled.div`
     border: 1px solid #000;
     padding: 10px;
     width: 80px;
+    display:flex;
+    justify-content: space-between;
 `;
 
 const Title = styled.h1`
@@ -131,6 +130,7 @@ const DescriptionBox = styled.div`
         flex-grow: 1;
         font-size: 16px;
         margin-top: 15px;
+        overflow:hidden;
     }
 `;
 
