@@ -10,7 +10,7 @@ export default function Header() {
 
     return (
         <HeaderContainer>
-            <Logo>
+            <Logo onClick={() => history.push('/')}>
                 <img src='/images/logo.png' alt='voltar à página principal'/>
                 <h1>MeditAí</h1>
             </Logo>
@@ -60,7 +60,7 @@ const Logo = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 50px;
-
+    cursor: pointer;
     img {
         height: 100%;
         border-radius: 50%;

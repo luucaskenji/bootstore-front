@@ -12,6 +12,7 @@ export default function Product() {
     const { id } = useParams();
     const { cart, setCart } = useCartContext();
     const [clicked, setClicked] = useState(false);
+    const [available,setAvailable] = useState(true);
     const [product, setProduct] = useState(null);
     const [mainPhoto, setMainPhoto] = useState(null);
 
@@ -20,6 +21,7 @@ export default function Product() {
             .then(res => {
                 setProduct(res.data);
                 setMainPhoto(res.data.mainPicture);
+                res.data.units <= 0 && setAvailable(false);
             });
     }, []);
 
@@ -32,6 +34,7 @@ export default function Product() {
             setCart([...cart, { product, quantity: 1 }])
         }
         setClicked(true);
+        setTimeout(()=>setClicked(false),500);
     }
 
 if (product === null) {
@@ -58,8 +61,8 @@ return (
                 <p>
                     {product.description}
                 </p>
-                <MainButton clicked={clicked} onClick={updateCart}>
-                    {product.units > 0 ? clicked ? 'Adicionando ao carrinho' : 'Adicionar ao carrinho' : 'Produto Indisponível'} 
+                <MainButton clicked={clicked} available={available} onClick={updateCart}>
+                    {available ? clicked ? 'Adicionando ao carrinho' : 'Adicionar ao carrinho' : 'Produto Indisponível'} 
                     </MainButton>
             </DescriptionSection>
         </Main>
