@@ -2,21 +2,22 @@ import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import Category from '../../components/Category';
+import TopSelling from '../../components/TopSellling';
 import { ProductContext } from '../../contexts/ProductContext';
 
 export default function HomePage() {
   const { categories, setCategories, setProducts, topProducts, setTopProducts } = useContext(ProductContext);
   
   useEffect(() => {
-    axios.get('http://localhost:3002/categories').then(resp => {
+    axios.get('http://localhost:3000/categories').then(resp => {
       setCategories(resp.data);
     });
 
-    axios.get('http://localhost:3002/products').then(resp => {
+    axios.get('http://localhost:3000/products').then(resp => {
       setProducts(resp.data);
     });
 
-    axios.get('http://localhost:3002/orders/top-products').then(resp => {
+    axios.get('http://localhost:3000/products/top-sellers').then(resp => {
       console.log(resp.data);
       setTopProducts(resp.data);
     });
@@ -24,7 +25,7 @@ export default function HomePage() {
 
   return (
     <HomeContainer>
-      {/* {topProducts.map(tp => <TopSelling key={tp.id} />)} */}
+      <TopSelling />
       {categories.map(c => <Category key={c.id} name={c.name}/>)}
     </HomeContainer>
   );

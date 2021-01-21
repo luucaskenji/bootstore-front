@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ProductContext } from '../contexts/ProductContext';
-import Product from '../components/Product';
+import Product from './Product';
 
-export default function TopSelling(props) {
-    const { products } = useContext(ProductContext);
+export default function TopSelling() {
+    const { topProducts } = useContext(ProductContext);
 
     return(
         <TopSellingContainer>
             <h2>Destaques</h2>
             <Products>
-                <h3>INSERIR PRODUTOS EM DESTAQUE AQUI!!!</h3>
+                {topProducts.map(tp => <Product key={tp.id} name={tp.name} price={tp.price} image={tp.mainPicture}/>)}
             </Products>
         </TopSellingContainer>
     );
@@ -20,22 +20,17 @@ const TopSellingContainer = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 15px;
-    padding: 10px;
+    margin: 15px 30px;
+    padding-bottom: 10px;
     overflow-x: scroll;
 
     h2 {
-        font-size: 22px;
-        font-weight: 500;
-        margin-bottom: 12px;
+        font-size: 27px;
+        margin-bottom: 20px;
     }
 `;
 
-const Product = styled.ul`
+const Products = styled.ul`
     display: flex;
     justify-content: space-between;
-    height: 180px;
-    width: 120px;
-    border-radius: 7px;
-    box-shadow: 3px 1px 1px #B7B5B2;
 `;
