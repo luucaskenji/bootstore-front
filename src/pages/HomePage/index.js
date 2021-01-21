@@ -18,7 +18,6 @@ export default function HomePage() {
     });
 
     axios.get('http://localhost:3000/products/top-sellers').then(resp => {
-      console.log(resp.data);
       setTopProducts(resp.data);
     });
   },[]);

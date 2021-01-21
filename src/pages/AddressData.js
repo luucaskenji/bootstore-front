@@ -10,11 +10,46 @@ import DogBox from '../components/DogBox';
 export default function AddressData () {
     const history = useHistory();
     const [ clicked, setClicked ] = useState(false);
+
+    function submitForm (event) {
+        event.preventDefault();
+        //const fieldsFilled = checkFields();
+        const fieldsFilled = true;
+
+        if (fieldsFilled) {
+            setClicked(true);
+            proceedSubmiting();
+        }
+        else {
+            alert('Por favor, preencha todos os campos');
+        }
+    }
+
+    function checkFields () {
+        //
+    }
+
+    function proceedSubmiting () {
+        //const request = axios.post(``, {});
+        //request.then(submitSucceeded);
+        //request.catch(submitFailed);
+        submitSucceeded();
+    }
+
+    function submitSucceeded () {
+        setClicked(false);
+        history.push('/escolher-pagamento');
+    }
+
+    function submitFailed () {
+        alert('Não foi possível enviar seus dados, tente novamente');
+        setClicked(false);
+    }
   
     return (
         <OutterBox>
             <Main>
-                <MainForm>
+                <MainForm onSubmit={submitForm}>
                     <h2>Endereço</h2>
 
                     <label htmlFor='cep'>CEP:</label>
@@ -38,7 +73,7 @@ export default function AddressData () {
                     <label htmlFor='state'>Estado:</label>
                     <input type='text' id='state'/>
 
-                    <MainButton>Ir para pagamento</MainButton>
+                    <MainButton available={true}>Ir para pagamento</MainButton>
                 </MainForm>
 
                 <DogBox>

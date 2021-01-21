@@ -10,7 +10,7 @@ export default function Header() {
 
     return (
         <HeaderContainer>
-            <Logo>
+            <Logo onClick={() => history.push('/')}>
                 <img src='/images/logo.png' alt='voltar à página principal'/>
                 <h1>MeditAí</h1>
             </Logo>
@@ -24,10 +24,10 @@ export default function Header() {
                     )
                     : (
                         <>
-                        <Link to='/'>
+                        <a onClick={()=>history.goBack()}>
                             <FiArrowLeftCircle />
                             <p>Voltar</p>
-                        </Link>
+                        </a>
                         <Link to='/carrinho'>
                             <FaShoppingCart />
                             <p>Carrinho</p>
@@ -60,7 +60,7 @@ const Logo = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 50px;
-
+    cursor: pointer;
     img {
         height: 100%;
         border-radius: 50%;
@@ -77,7 +77,7 @@ const IconsDiv = styled.div`
         font-size: 25px;
         justify-content: space-between;
         margin-left: 15px;
-        
+        cursor:pointer;
         p {
             font-size: 17px;
             font-weight: 400;

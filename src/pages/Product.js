@@ -5,69 +5,74 @@ import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import MainButton from '../components/MainButton';
 import { useCartContext } from '../contexts/CartContext';
+import ProductProvider from '../contexts/ProductContext';
 
 export default function Product() {
     const history = useHistory();
     const { id } = useParams();
     const { cart, setCart } = useCartContext();
     const [clicked, setClicked] = useState(false);
+    const [available,setAvailable] = useState(true);
     const [product, setProduct] = useState(null);
     const [mainPhoto, setMainPhoto] = useState(null);
-    console.log(cart);
+
     useEffect(() => {
         axios.get(`http://localhost:3000/products/${id}`)
             .then(res => {
                 setProduct(res.data);
                 setMainPhoto(res.data.mainPicture);
+                res.data.units <= 0 && setAvailable(false);
             });
     }, []);
-    
+
     function updateCart() {
-        if (!cart) {
-            setCart([{ product, quantity: 0 }]);
+        const cartProduct = cart.find(o => o.product.id === product.id);
+        if (cartProduct) {
+            cartProduct.quantity = cartProduct.quantity + 1;
+            setCart([...cart]);
         } else {
-            const cartProduct = cart.find(o => o.product.id === product.id);
-            if(cartProduct){
-                cartProduct.quantity = cartProduct.quantity + 1;
-                setCart([...cart]);
-            } else{
-                setCart([...cart, { product, quantity: 1 }])
-            }
+            setCart([...cart, { product, quantity: 1 }])
         }
+        setClicked(true);
+        setTimeout(()=>{
+            setClicked(false)
+            history.push('/');
+        },500);
+
+        
     }
 
-    if (product === null) {
-        //add loading;
-        return <h1>loading</h1>;
-    }
-    return (
-        <OutterBox>
-            <Main>
-                <PhotoSection>
-                    <div className='main-photo'>
-                        {<img src={mainPhoto} />}
-                    </div>
-                    <div className='photo-menu'>
-                        <img src={product.mainPicture} onClick={() => setMainPhoto(product.mainPicture)} />
-                        {product.pictures.map(p =>
-                            <img src={p.url} key={p.id} onClick={() => setMainPhoto(p.url)} />
-                        )}
-                    </div>
-                </PhotoSection>
+if (product === null) {
+    //add loading;
+    return <h1>loading</h1>;
+}
+return (
+    <OutterBox>
+        <Main>
+            <PhotoSection>
+                <div className='main-photo'>
+                    {<img src={mainPhoto} />}
+                </div>
+                <div className='photo-menu'>
+                    {product.pictures.map(p =>
+                        <img src={p.url} key={p.id} onClick={() => setMainPhoto(p.url)} />
+                    )}
+                </div>
+            </PhotoSection>
 
-                <DescriptionSection className='description'>
-                    <h2>{product.name}</h2>
-                    <h3>{`R$ ${product.price / 100}`}</h3>
-                    <p>
-                        {product.description}
-                    </p>
-                    <MainButton clicked={clicked} onClick={updateCart}>
-                        {clicked ? 'Adicionando' : 'Adicionar'} ao carrinho
+            <DescriptionSection className='description'>
+                <h2>{product.name}</h2>
+                <h3>{product.units > 0 ? `R$ ${product.price / 100}` : 'Produto indisponível'}</h3>
+                <p>
+                    {product.description}
+                </p>
+                <MainButton clicked={clicked} available={available} onClick={updateCart}>
+                    {available ? clicked ? 'Adicionando ao carrinho' : 'Adicionar ao carrinho' : 'Produto Indisponível'} 
                     </MainButton>
-                </DescriptionSection>
-            </Main>
-        </OutterBox>
-    );
+            </DescriptionSection>
+        </Main>
+    </OutterBox>
+);
 }
 
 const Main = styled.main`
@@ -106,6 +111,8 @@ const DescriptionSection = styled.section`
 
 //object-fit: contain;
 const PhotoSection = styled.section`
+    overflow: hidden;
+    
     .main-photo {
         align-items: center;
         display: flex;

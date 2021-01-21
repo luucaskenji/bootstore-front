@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
@@ -14,33 +14,36 @@ export default function PaymentChoice () {
         <OutterBox>
             <Main>
                 <h1>Escolher meio de pagamento</h1>
-                <p>
+                <Link to='/pagamento/cartao'>
                     <AiFillCreditCard />
                     Cartão de Crédito
-                </p>
-                <p>
+                </Link>
+                <Link to='/pagamento/boleto'>
                     <RiBillLine />
                     Boleto Bancário
-                </p>
+                </Link>
             </Main>
         </OutterBox>
     );
 }
 
 const Main = styled.main`
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 850px;
 
     h1 {
         font-size: 30px;
-        margin-bottom: 30px;
+        font-weight: 700;
+        margin-bottom: 60px;
     }
-    p {
+    a {
         font-size: 22px;
-        margin-bottom: 10px;
+        margin-bottom: 30px;
 
         svg {
-            margin: 0 0 -3px 5px;
+            margin: 0 5px -3px 0;
         }
     }
 `;
