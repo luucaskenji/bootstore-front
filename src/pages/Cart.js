@@ -13,7 +13,6 @@ export default function Cart() {
     const [clicked, setClicked] = useState(false);
     const [quantity, setQuantity] = useState(0);
     let [total, setTotal] = useState(0);
-<<<<<<< HEAD
     useEffect(() => {
         setClicked(false);
     }, []);
@@ -27,14 +26,6 @@ export default function Cart() {
         }, 500);
 
     }
-=======
-
-    function closeOrder () {
-        //fechar ordem
-        history.push('/dados-pessoais');
-    }
-
->>>>>>> feature/productPage
     return (
         <OutterBox>
             <Title>Meu carrinho</Title>
@@ -79,11 +70,7 @@ export default function Cart() {
                         <p>{`R$ ${total / 100}`}</p>
                     </TotalSpan>
 
-<<<<<<< HEAD
                     <MainButton clicked={clicked} onClick={toCheckout} available={true}>
-=======
-                    <MainButton clicked={clicked} onClick={closeOrder}>
->>>>>>> feature/productPage
                         {clicked ? 'Fechando' : 'Fechar'} compra
                     </MainButton>
                 </TotalSection>
