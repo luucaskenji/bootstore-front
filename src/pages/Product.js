@@ -108,6 +108,8 @@ const DescriptionSection = styled.section`
 
 //object-fit: contain;
 const PhotoSection = styled.section`
+    overflow: hidden;
+    
     .main-photo {
         align-items: center;
         display: flex;

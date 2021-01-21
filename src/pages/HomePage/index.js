@@ -8,15 +8,15 @@ export default function HomePage() {
   const { categories, setCategories, setProducts, topProducts, setTopProducts } = useContext(ProductContext);
   
   useEffect(() => {
-    axios.get('http://localhost:3002/categories').then(resp => {
+    axios.get('http://localhost:3000/categories').then(resp => {
       setCategories(resp.data);
     });
 
-    axios.get('http://localhost:3002/products').then(resp => {
+    axios.get('http://localhost:3000/products').then(resp => {
       setProducts(resp.data);
     });
 
-    axios.get('http://localhost:3002/orders/top-products').then(resp => {
+    axios.get('http://localhost:3000/orders/top-products').then(resp => {
       console.log(resp.data);
       setTopProducts(resp.data);
     });
