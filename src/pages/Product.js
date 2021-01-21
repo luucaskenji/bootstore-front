@@ -21,53 +21,48 @@ export default function Product() {
                 setMainPhoto(res.data.mainPicture);
             });
     }, []);
-    
+
     function updateCart() {
-        if (!cart) {
-            setCart([{ product, quantity: 0 }]);
+        const cartProduct = cart.find(o => o.product.id === product.id);
+        if (cartProduct) {
+            cartProduct.quantity = cartProduct.quantity + 1;
+            setCart([...cart]);
         } else {
-            const cartProduct = cart.find(o => o.product.id === product.id);
-            if(cartProduct){
-                cartProduct.quantity = cartProduct.quantity + 1;
-                setCart([...cart]);
-            } else{
-                setCart([...cart, { product, quantity: 1 }])
-            }
+            setCart([...cart, { product, quantity: 1 }])
         }
     }
 
-    if (product === null) {
-        //add loading;
-        return <h1>loading</h1>;
-    }
-    return (
-        <OutterBox>
-            <Main>
-                <PhotoSection>
-                    <div className='main-photo'>
-                        {<img src={mainPhoto} />}
-                    </div>
-                    <div className='photo-menu'>
-                        <img src={product.mainPicture} onClick={() => setMainPhoto(product.mainPicture)} />
-                        {product.pictures.map(p =>
-                            <img src={p.url} key={p.id} onClick={() => setMainPhoto(p.url)} />
-                        )}
-                    </div>
-                </PhotoSection>
+if (product === null) {
+    //add loading;
+    return <h1>loading</h1>;
+}
+return (
+    <OutterBox>
+        <Main>
+            <PhotoSection>
+                <div className='main-photo'>
+                    {<img src={mainPhoto} />}
+                </div>
+                <div className='photo-menu'>
+                    {product.pictures.map(p =>
+                        <img src={p.url} key={p.id} onClick={() => setMainPhoto(p.url)} />
+                    )}
+                </div>
+            </PhotoSection>
 
-                <DescriptionSection className='description'>
-                    <h2>{product.name}</h2>
-                    <h3>{`R$ ${product.price / 100}`}</h3>
-                    <p>
-                        {product.description}
-                    </p>
-                    <MainButton clicked={clicked} onClick={updateCart}>
-                        {clicked ? 'Adicionando' : 'Adicionar'} ao carrinho
+            <DescriptionSection className='description'>
+                <h2>{product.name}</h2>
+                <h3>{`R$ ${product.price / 100}`}</h3>
+                <p>
+                    {product.description}
+                </p>
+                <MainButton clicked={clicked} onClick={updateCart}>
+                    {clicked ? 'Adicionando' : 'Adicionar'} ao carrinho
                     </MainButton>
-                </DescriptionSection>
-            </Main>
-        </OutterBox>
-    );
+            </DescriptionSection>
+        </Main>
+    </OutterBox>
+);
 }
 
 const Main = styled.main`

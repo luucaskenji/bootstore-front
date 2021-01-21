@@ -6,7 +6,7 @@ const CartContext = createContext();
 export default CartContext;
 
 export function CartProvider(props) {
-  const [cart, setCart] = useLocalStorage('cart', null);
+  const [cart, setCart] = useLocalStorage('cart', []);
 
   return (
     <CartContext.Provider {...props} value={{ cart, setCart}}>
