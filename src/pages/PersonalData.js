@@ -66,7 +66,7 @@ export default function PersonalData () {
 
                     <div className='to-fill'></div>
 
-                    <MainButton>Próximo</MainButton>
+                    <MainButton available={true}>Próximo</MainButton>
                 </MainForm>
 
                 <DogBox>

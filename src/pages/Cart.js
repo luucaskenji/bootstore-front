@@ -13,12 +13,28 @@ export default function Cart() {
     const [clicked, setClicked] = useState(false);
     const [quantity, setQuantity] = useState(0);
     let [total, setTotal] = useState(0);
+<<<<<<< HEAD
+    useEffect(() => {
+        setClicked(false);
+    }, []);
+    function toCheckout() {
+        setClicked(true);
+        setTimeout(() => {
+            setClicked(false);
+            if (cart.length > 0) {
+                history.push('/dados-pessoais');
+            }
+        }, 500);
+
+    }
+=======
 
     function closeOrder () {
         //fechar ordem
         history.push('/dados-pessoais');
     }
 
+>>>>>>> feature/productPage
     return (
         <OutterBox>
             <Title>Meu carrinho</Title>
@@ -48,9 +64,11 @@ export default function Cart() {
                             total += item.product.price * item.quantity;
                             return (
                                 <li>
-                                    <p>{`${item.quantity}x`}</p>
-                                    <p>{item.product.name}</p>
-                                    <p>{`R$ ${item.quantity * (item.product.price / 100)}`}</p>
+                                    <div className="flex">
+                                        <p className="itemQuantity">{`${item.quantity}x`}</p>
+                                        <p className="itemName">{item.product.name}</p>
+                                    </div>
+                                    <p className="itemPrice">{`R$ ${item.quantity * (item.product.price / 100)}`}</p>
                                 </li>
                             )
                         })}
@@ -61,7 +79,11 @@ export default function Cart() {
                         <p>{`R$ ${total / 100}`}</p>
                     </TotalSpan>
 
+<<<<<<< HEAD
+                    <MainButton clicked={clicked} onClick={toCheckout} available={true}>
+=======
                     <MainButton clicked={clicked} onClick={closeOrder}>
+>>>>>>> feature/productPage
                         {clicked ? 'Fechando' : 'Fechar'} compra
                     </MainButton>
                 </TotalSection>
@@ -69,14 +91,6 @@ export default function Cart() {
         </OutterBox>
     );
 }
-
-const QuantityBox = styled.div`
-    border: 1px solid #000;
-    padding: 10px;
-    width: 80px;
-    display:flex;
-    justify-content: space-between;
-`;
 
 const Title = styled.h1`
     font-size: 34px;
@@ -101,13 +115,14 @@ const ProductsList = styled.ul`
     background-color: rgba(250,250,250,0.8);
     border-radius: 25px;
     height: 600px;
-    overflow: hidden;
+    overflow-y: scroll;
     padding: 40px 20px;
     width: 400px;
 `;
 
 const ProductLi = styled.li`
-    background-color: lightblue;
+    margin: 0 0 10px 0;
+    padding-bottom: 10px;
     border-bottom: 1px solid #ece6de;
     display: flex;
     height: 25%;
@@ -133,10 +148,12 @@ const DescriptionBox = styled.div`
         font-size: 20px;
     }
     p {
-        flex-grow: 1;
         font-size: 16px;
-        margin-top: 15px;
-        overflow:hidden;
+        margin: 5px 0;
+        display: -webkit-box;   
+        -webkit-line-clamp: 3;   
+        -webkit-box-orient: vertical;     
+        overflow: hidden; 
     }
 `;
 
@@ -153,20 +170,33 @@ const TotalSection = styled.section`
     }
     
     p {
-        font-size: 20px;
+        font-size: 16px;
+        display:block;
     }
 `;
 
 const PriceList = styled.ul`
-    flex-grow: 1;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     width: 100%;
-
     li {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
         width: 100%;
+        .itemQuantity{
+            margin-right: 5px;
+        }
+        .itemName{
+            max-width:250px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+
+    }
+    .flex{
+        display:flex;
     }
 `;
 

@@ -73,7 +73,7 @@ export default function AddressData () {
                     <label htmlFor='state'>Estado:</label>
                     <input type='text' id='state'/>
 
-                    <MainButton>Ir para pagamento</MainButton>
+                    <MainButton available={true}>Ir para pagamento</MainButton>
                 </MainForm>
 
                 <DogBox>

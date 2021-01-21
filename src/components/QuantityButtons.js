@@ -8,10 +8,12 @@ export default function QuantityButtons(props) {
     function subQuantity(){
         item.quantity = item.quantity - 1;
         if(item.quantity <= 0){
-            cart.splice(
-                cart.indexOf(i => i.product.id === item.product.id),
-                1
-            );
+            const index = cart.findIndex(i => i.product.id === item.product.id);
+            if(index >= 0){
+                cart.splice(
+                    index,1
+                );
+            }
         }
         setCart([...cart]);
     }
