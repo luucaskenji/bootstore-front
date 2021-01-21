@@ -9,6 +9,7 @@ import AddressData from './pages/AddressData';
 import PaymentChoice from './pages/PaymentChoice';
 import PaymentSlip from './pages/PaymentSlip';
 import CreditCard from './pages/CreditCard';
+import FinalPage from './pages/FinalPage';
 import Header from './components/Header';
 
 export default function App() {
@@ -16,6 +17,7 @@ return (
   <Router>
     <Header />
       <Switch>
+        <Route path='/compra-concluida' component={FinalPage} />
         <Route path='/pagamento/cartao' component={CreditCard} />
         <Route path='/pagamento/boleto' component={PaymentSlip} />
         <Route path='/escolher-pagamento' component={PaymentChoice} />
