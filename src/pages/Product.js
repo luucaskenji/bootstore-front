@@ -34,7 +34,12 @@ export default function Product() {
             setCart([...cart, { product, quantity: 1 }])
         }
         setClicked(true);
-        setTimeout(()=>setClicked(false),500);
+        setTimeout(()=>{
+            setClicked(false)
+            history.push('/');
+        },500);
+
+        
     }
 
 if (product === null) {
@@ -106,6 +111,8 @@ const DescriptionSection = styled.section`
 
 //object-fit: contain;
 const PhotoSection = styled.section`
+    overflow: hidden;
+    
     .main-photo {
         align-items: center;
         display: flex;

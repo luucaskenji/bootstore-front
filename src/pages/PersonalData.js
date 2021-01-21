@@ -10,11 +10,49 @@ import DogBox from '../components/DogBox';
 export default function PersonalData () {
     const history = useHistory();
     const [ clicked, setClicked ] = useState(false);
+
+    function submitForm (event) {
+        event.preventDefault();
+        //const fieldsFilled = checkFields();
+        const fieldsFilled = true;
+
+        if (fieldsFilled) {
+            setClicked(true);
+            proceedSubmiting();
+        }
+        else {
+            alert('Por favor, preencha todos os campos');
+        }
+    }
+
+    function checkFields () {
+        //
+    }
+
+    function proceedSubmiting () {
+        //const request = axios.post(``, {});
+        //request.then(submitSucceeded);
+        //request.catch(submitFailed);
+        submitSucceeded();
+    }
+
+    function submitSucceeded () {
+        setClicked(false);
+        // setName('');
+        // setSurname('');
+        // setCpf('');
+        history.push('/endereco');
+    }
+
+    function submitFailed () {
+        alert('Não foi possível enviar seus dados, tente novamente');
+        setClicked(false);
+    }
   
     return (
         <OutterBox>
             <Main>
-                <MainForm>
+                <MainForm onSubmit={submitForm}>
                     <h2>Dados Pessoais</h2>
 
                     <label htmlFor='name'>Nome:</label>
