@@ -11,6 +11,7 @@ import PaymentSlip from './pages/PaymentSlip';
 import CreditCard from './pages/CreditCard';
 import FinalPage from './pages/FinalPage';
 import Header from './components/Header';
+import { CartProvider } from './contexts/CartContext';
 
 export default function App() {
 return (
