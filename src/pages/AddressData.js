@@ -68,7 +68,7 @@ export default function AddressData () {
     function proceedSubmiting () {   
         const body = { cep, streetName, streetNumber, neighbourhood, city, state };
         if (complement) body.complement = complement;
-        const request = axios.post(`http://localhost:3000/users/${userId}/address`, body);
+        const request = axios.post(`https://medita-ai-back.herokuapp.com/users/${userId}/address`, body);
         request.then( res => submitSucceeded(res.data));
         request.catch( error => submitFailed(error));
     }

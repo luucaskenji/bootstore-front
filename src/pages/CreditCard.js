@@ -31,7 +31,7 @@ export default function CreditCard() {
     function proceedSubmiting () {
         const body = { userId, addressId, cart, paymentMethod, cardName, cardNumber, expiration, cvv };
         axios
-            .post(`http://localhost:3000/orders`, body)
+            .post(`https://medita-ai-back.herokuapp.com/orders`, body)
             .then(res => submitSucceeded(res))
             .catch(err => submitFailed(err));
     }

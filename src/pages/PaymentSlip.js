@@ -20,7 +20,7 @@ export default function PaymentSlip() {
 
         console.log(data);
         axios
-            .post('http://localhost:3000/orders', data)
+            .post('https://medita-ai-back.herokuapp.com/orders', data)
             .then(res => {
                 setOrderId(res.data.id);
                 history.push('/compra-concluida');

@@ -18,7 +18,7 @@ export default function Product() {
     const [mainPhoto, setMainPhoto] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/products/${id}`)
+        axios.get(`https://medita-ai-back.herokuapp.com/products/${id}`)
             .then(res => {
                 setProduct(res.data);
                 setMainPhoto(res.data.mainPicture);

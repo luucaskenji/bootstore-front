@@ -24,7 +24,7 @@ export default function PersonalData () {
     }
 
     function proceedSubmiting () {
-        const request = axios.post('http://localhost:3000/users', {name, email, cpf});  
+        const request = axios.post('https://medita-ai-back.herokuapp.com/users', {name, email, cpf});  
         request.then( res => submitSucceeded(res.data));
         request.catch(submitFailed);
     }

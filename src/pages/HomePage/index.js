@@ -15,16 +15,16 @@ export default function HomePage() {
   } = useContext(ProductContext);
   
   useEffect(() => {
-    axios.get('http://localhost:3000/categories').then(resp => {
+    axios.get('https://medita-ai-back.herokuapp.com/categories').then(resp => {
       setCategories(resp.data);
     });
 
-    axios.get('http://localhost:3000/products').then(resp => {
+    axios.get('https://medita-ai-back.herokuapp.com/products').then(resp => {
       setProducts(resp.data);
       setLoading(false);
     });
 
-    axios.get('http://localhost:3000/products/top-sellers').then(resp => {
+    axios.get('https://medita-ai-back.herokuapp.com/products/top-sellers').then(resp => {
       setTopProducts(resp.data);
       setLoading(false);
     });
