@@ -6,6 +6,7 @@ import OutterBox from '../components/OutterBox';
 import MainButton from '../components/MainButton';
 import { useCartContext } from '../contexts/CartContext';
 import ProductProvider from '../contexts/ProductContext';
+import Loading from '../components/Loading';
 
 export default function Product() {
     const history = useHistory();
@@ -43,8 +44,9 @@ export default function Product() {
     }
 
 if (product === null) {
-    //add loading;
-    return <h1>loading</h1>;
+    return  <OutterBox>
+                <Loading/>
+            </OutterBox>;
 }
 return (
     <OutterBox>
@@ -111,7 +113,6 @@ const DescriptionSection = styled.section`
 
 const PhotoSection = styled.section`
     overflow: hidden;
-    
     .main-photo {
         align-items: center;
         display: flex;
