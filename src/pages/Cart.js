@@ -45,7 +45,7 @@ export default function Cart() {
             <Main>
                 <ProductsList>
                     {cart.map(item =>
-                        <ProductLi>
+                        <ProductLi key={item.product.id}>
                             <div className='img-box' onClick={() => history.push(`/produto/${item.product.id}`)}>
                                 <img src={item.product.mainPicture} />
                             </div>

@@ -10,8 +10,10 @@ import UserContext from '../contexts/UserContext';
 export default function FinalPage() {
     const history = useHistory();
     const { userId, addressId } = useContext(UserContext);
-    const { cart, setCart } = useCartContext();
-    const { orderId, setOrderId} = useState('');
+    const { cart } = useCartContext();
+    const { orderId, setOrderId} = useState('') 
+
+    console.log(cart);
     
     useEffect(() => {
         axios.post(`http://localhost:3000/orders`,{
@@ -20,10 +22,8 @@ export default function FinalPage() {
             cart
         })
         .then(res => {
-            setOrderId(
-                (res.data.id.toString())
-                .padStart(8,'0')
-            );
+            console.log(res.data);
+            setOrderId(res.data.id.toString().padStart(8,'0'));
         });
     }, []);
     //<p>Número do pedido: {orderId.padStart()}</p>   Pode ser melhor voltar a por o .padStart() nessa linha (ou não rs)
