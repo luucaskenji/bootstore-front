@@ -4,17 +4,19 @@ import { FaCheckCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import { useCartContext } from '../contexts/CartContext';
+import UserContext from '../contexts/UserContext';
 
 export default function FinalPage() {
     const history = useHistory();
+    const { userId, addressId } = useContext(UserContext);    //Novo user context
     const { cart, setCart } = useCartContext();
     const { orderId, setOrderId} = useState[''];
     //const { user, setUser} = useUserContext();
-    const user = {};
+    //const user = {};
     useEffect(() => {
         axios.post(`http://localhost:3000/orders`,{
-            userId: user.id,
-            addressId: user.addressId,
+            userId,
+            addressId,
             cart
         })
         .then(res => {
