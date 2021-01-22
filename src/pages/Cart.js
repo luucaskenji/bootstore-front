@@ -26,6 +26,19 @@ export default function Cart() {
         }, 500);
 
     }
+    if (cart.length === 0) {
+        return (
+            <OutterBox>
+                <div>
+                    <Title>Seu carrinho está vazio!</Title>
+
+                    <MainButton available={true} onClick={() => history.push('/')}>
+                        Adicionar produtos
+                    </MainButton>
+                </div>
+            </OutterBox>
+        )
+    }
     return (
         <OutterBox>
             <Title>Meu carrinho</Title>
@@ -34,7 +47,7 @@ export default function Cart() {
                     {cart.map(item =>
                         <ProductLi>
                             <div className='img-box' onClick={() => history.push(`/produto/${item.product.id}`)}>
-                                    <img src={item.product.mainPicture} />
+                                <img src={item.product.mainPicture} />
                             </div>
                             <DescriptionBox>
                                 <h3>{`R$ ${item.product.price / 100}`}</h3>
