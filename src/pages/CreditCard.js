@@ -86,7 +86,9 @@ export default function CreditCard () {
 
                     <div className='to-fill'></div>
 
-                    <MainButton>Finalizar compra</MainButton>
+                    <MainButton available={true} disabled={clicked} clicked={clicked}>
+                        Finalizar compra
+                    </MainButton>
                 </MainForm>
 
                 <DogBox>
