@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import { useCartContext } from '../contexts/CartContext';
 
-
 export default function FinalPage() {
     const history = useHistory();
     const { cart, setCart } = useCartContext();
@@ -57,6 +56,3 @@ const Main = styled.main`
         font-size: 24px;
     }
 `;
-
-
-//width form 500px;
