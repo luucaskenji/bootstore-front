@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Dinero from 'dinero.js'; 
 import { Link } from 'react-router-dom';
+import { ProductContext } from '../contexts/ProductContext';
+import Loading from './Loading';
 
 export default function Product(props) {
     const { id, name, price, image } = props;
+    const { loading } = useContext(ProductContext);
 
     const correctPrice = Dinero({amount: parseInt(price), currency: 'BRL', precision: 2}).toFormat("$0,0.00");
 
     return(
-        <ProductContainer>
-            <Link to={`/produto/${id}`}><img src={image} /></Link>
-            <Caption>
-                <Link to={`/produto/${id}`}><p>{name}</p></Link>
-                <span>{correctPrice}</span>
-            </Caption>
+        <ProductContainer loading={loading}>
+            { loading 
+                ? <Loading />
+                : (
+                    <>
+                        <Link to={`/produto/${id}`}><img src={image} /></Link>
+                        <Caption>
+                            <Link to={`/produto/${id}`}><p>{name}</p></Link>
+                            <span>{correctPrice}</span>
+                        </Caption>
+                    </>
+                )
+            }
         </ProductContainer>
     );
 }
@@ -22,10 +32,11 @@ export default function Product(props) {
 const ProductContainer = styled.li`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: ${({loading}) => loading ? 'center' : 'space-between'};
+    align-items: ${({loading}) => loading ? 'center' : 'initial'};
     min-width: 170px;
     width: 13vw;
-    margin-right: 50px;
+    margin-right: 20px;
     border-radius: 7px;
     box-shadow: 3px 2px 10px 1px #B7B5B2;
 

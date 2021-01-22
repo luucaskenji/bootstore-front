@@ -31,6 +31,8 @@ const CategoryContainer = styled.section`
     margin: 15px 30px;
     padding-bottom: 10px;
     overflow-x: scroll;
+    width: 75vw;
+    max-width: 620px;
 
     h2 {
         font-size: 27px;

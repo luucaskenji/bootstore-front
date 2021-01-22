@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
@@ -26,6 +26,19 @@ export default function Cart() {
         }, 500);
 
     }
+    if (cart.length === 0) {
+        return (
+            <OutterBox>
+                <div>
+                    <Title>Seu carrinho está vazio!</Title>
+
+                    <MainButton available={true} onClick={() => history.push('/')}>
+                        Adicionar produtos
+                    </MainButton>
+                </div>
+            </OutterBox>
+        )
+    }
     return (
         <OutterBox>
             <Title>Meu carrinho</Title>
@@ -33,16 +46,16 @@ export default function Cart() {
                 <ProductsList>
                     {cart.map(item =>
                         <ProductLi>
-                            <div className='img-box'>
+                            <div className='img-box' onClick={() => history.push(`/produto/${item.product.id}`)}>
                                 <img src={item.product.mainPicture} />
                             </div>
-
                             <DescriptionBox>
                                 <h3>{`R$ ${item.product.price / 100}`}</h3>
                                 <p>{item.product.description}</p>
                                 <QuantityButtons item={item} />
                             </DescriptionBox>
                         </ProductLi>
+
                     )}
 
                 </ProductsList>
@@ -75,7 +88,7 @@ export default function Cart() {
                     </MainButton>
                 </TotalSection>
             </Main>
-        </OutterBox>
+        </OutterBox >
     );
 }
 
@@ -103,6 +116,7 @@ const ProductsList = styled.ul`
     border-radius: 25px;
     height: 600px;
     overflow-y: scroll;
+    overflow-x: hidden;
     padding: 40px 20px;
     width: 400px;
 `;
@@ -118,6 +132,7 @@ const ProductLi = styled.li`
     .img-box {
         height: 100%;
         width: 35%;
+        cursor: pointer;
         img {
             height: 100%;
             width: 100%;
@@ -166,6 +181,7 @@ const PriceList = styled.ul`
     overflow-y: scroll;
     overflow-x: hidden;
     width: 100%;
+    flex-grow:1;
     li {
         display: flex;
         justify-content: space-between;
