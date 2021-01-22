@@ -4,34 +4,16 @@ import axios from 'axios';
 import { FaCheckCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
-import { useCartContext } from '../contexts/CartContext';
 import UserContext from '../contexts/UserContext';
 
 export default function FinalPage() {
-    const history = useHistory();
-    const { userId, addressId } = useContext(UserContext);
-    const { cart } = useCartContext();
-    const { orderId, setOrderId} = useState('') 
+    const { orderId } = useContext(UserContext);
 
-    console.log(cart);
-    
-    useEffect(() => {
-        axios.post(`http://localhost:3000/orders`,{
-            userId,
-            addressId,
-            cart
-        })
-        .then(res => {
-            console.log(res.data);
-            setOrderId(res.data.id.toString().padStart(8,'0'));
-        });
-    }, []);
-    //<p>Número do pedido: {orderId.padStart()}</p>   Pode ser melhor voltar a por o .padStart() nessa linha (ou não rs)
     return (
         <OutterBox>
             <Main>
                 <h1>Sua compra foi realizada com sucesso! <FaCheckCircle /></h1>
-                <p>Número do pedido: {orderId}</p>
+                <p>Número do pedido: {orderId.toString().padStart(8,'0')}</p>
             </Main>
         </OutterBox>
     );

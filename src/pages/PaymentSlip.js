@@ -1,33 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import axios from 'axios';
 
 import UserContext from '../contexts/UserContext';
+import { useCartContext } from '../contexts/CartContext';
+import MainButton from '../components/MainButton';
+import { useHistory } from 'react-router-dom';
 
-export default function PaymentSlip () {
-    const [loading, setLoading] = useState(true);
+export default function PaymentSlip() {
+    const history = useHistory();
+    const { cart, setCart } = useCartContext();
+    const { userId, addressId, paymentMethod, setOrderId } = useContext(UserContext);
+    const [clicked, setClicked] = useState(false);
 
-    const submitFailed = () => {
-        alert('Não foi possível enviar seus dados, tente novamente');
+    function finalizeOrder() {
+        setClicked(true);
+        const data = { userId, addressId, cart, paymentMethod };
+
+        console.log(data);
+        axios
+            .post('http://localhost:3000/orders', data)
+            .then(res => {
+                setOrderId(res.data.id);
+                history.push('/compra-concluida');
+                setCart([]);
+            })
+            .catch(submitFailed);
     }
 
-    useEffect(() => {
-        const { paymentMethod } = useContext(UserContext);
-
-        axios
-            .post('http://localhost:3000/orders', { paymentMethod })
-            .then(() => setLoading(false))
-            .catch(submitFailed);
-    }, []);
+    function submitFailed() {
+        setClicked(false);
+        alert('Não foi possível enviar seus dados, tente novamente');
+    }
 
     return (
         <OutterBox>
             <Main>
                 <PaymentBox>
-                    {!loading && <h1>Boleto gerado com sucesso!</h1>}
-                    <StyledLink to='/compra-concluida'>Finalizar compra</StyledLink>
+                    <h1>Boleto gerado com sucesso!</h1>
+                    <MainButton available={true} disabled={clicked} clicked={clicked} onClick={finalizeOrder}>Finalizar compra</MainButton>
                 </PaymentBox>
             </Main>
         </OutterBox>
@@ -55,14 +67,4 @@ const PaymentBox = styled.div`
         font-size: 30px;
         font-weight: 700;
     }
-`;
-
-const StyledLink = styled(Link)`
-    background-color: #2D82B7;
-    border-radius: 5px;
-    color: #FFF;
-    font-size: 22px;
-    padding: 12px 0;
-    text-align: center;
-    width: 300px;
 `;

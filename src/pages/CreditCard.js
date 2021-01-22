@@ -13,19 +13,12 @@ import UserContext from '../contexts/UserContext';
 export default function CreditCard() {
     const history = useHistory();
     const [ clicked, setClicked ] = useState(false);
-    const {
-        userId,
-        addressId,
-        paymentMethod,
-        cardName,
-        cardNumber,
-        expiration,
-        cvv,
-        setCardName,
-        setCardNumber,
-        setExpiration,
-        setCvv
-    } = useContext(UserContext);
+    const [ cardName, setCardName ] = useState('');
+    const [ cardNumber, setCardNumber ] = useState('');
+    const [ expiration, setExpiration ] = useState('');
+    const [ cvv, setCvv ] = useState('');
+    const { userId, addressId, paymentMethod, setOrderId } = useContext(UserContext);
+    const { cart } = useCartContext();
     
 
     function submitForm (event) {
@@ -35,14 +28,16 @@ export default function CreditCard() {
     }
 
     function proceedSubmiting () {
-        const body = { userId, addressId, paymentMethod, cardName, cardNumber, expiration, cvv };
+        const body = { userId, addressId, cart, paymentMethod, cardName, cardNumber, expiration, cvv };
         axios
             .post(`http://localhost:3000/orders`, body)
             .then(submitSucceeded)
             .catch(submitFailed);
     }
 
-    function submitSucceeded () {
+    function submitSucceeded() {
+        setOrderId(res.data.id);
+        setCart([]);
         history.push('/compra-concluida');
     }
 

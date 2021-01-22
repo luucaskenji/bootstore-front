@@ -28,7 +28,7 @@ export default function PaymentChoice () {
                     <AiFillCreditCard />
                     Cartão de Crédito
                 </Button>
-                <Button onClick={() => choosePaymentMethod('payment slip')} >
+                <Button onClick={() => choosePaymentMethod('bank slip')} >
                     <RiBillLine />
                     Boleto Bancário
                 </Button>

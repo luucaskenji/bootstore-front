@@ -9,7 +9,7 @@ import QuantityButtons from '../components/QuantityButtons';
 
 export default function Cart() {
     const history = useHistory();
-    const { cart, setCart } = useCartContext();
+    const { cart } = useCartContext();
     const [clicked, setClicked] = useState(false);
     const [quantity, setQuantity] = useState(0);
     let [total, setTotal] = useState(0);

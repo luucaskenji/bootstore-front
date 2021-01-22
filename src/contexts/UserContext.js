@@ -6,11 +6,8 @@ export default UserContext;
 export function UserProvider (props) {
     const [ userId, setUserId ] = useState('');
     const [ addressId, setAddressId ] = useState('');
+    const [ orderId, setOrderId ] = useState('');
     const [ paymentMethod, setPaymentMethod ] = useState('');
-    const [ cardName, setCardName ] = useState('');
-    const [ cardNumber, setCardNumber ] = useState('');
-    const [ expiration, setExpiration ] = useState('');
-    const [ cvv, setCvv ] = useState('');
 
     const value = {
         userId,
@@ -19,14 +16,8 @@ export function UserProvider (props) {
         setAddressId,
         paymentMethod,
         setPaymentMethod,
-        cardName,
-        setCardName,
-        cardNumber,
-        setCardNumber,
-        expiration,
-        setExpiration,
-        cvv,
-        setCvv
+        orderId,
+        setOrderId
     };
 
     return (
