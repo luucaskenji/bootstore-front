@@ -28,19 +28,21 @@ const CategoryContainer = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 15px 30px;
+    margin: 15px 20px;
     padding-bottom: 10px;
-    overflow-x: scroll;
     width: 75vw;
     max-width: 620px;
 
     h2 {
         font-size: 27px;
         margin-bottom: 20px;
+        padding-left: 10px;
     }
 `;
 
 const Products = styled.ul`
     display: flex;
     justify-content: space-between;
+    overflow-x: scroll;
+    padding: 10px;
 `;
