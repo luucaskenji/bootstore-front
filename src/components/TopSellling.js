@@ -4,13 +4,15 @@ import { ProductContext } from '../contexts/ProductContext';
 import Product from './Product';
 
 export default function TopSelling() {
-    const { topProducts, setLoading } = useContext(ProductContext);
+    const { topProducts } = useContext(ProductContext);
+
+    console.log(topProducts);
 
     return(
         <TopSellingContainer>
             <h2>Destaques</h2>
             <Products>
-                {topProducts.map(tp => <Product key={tp.id} id={tp.id} name={tp.name} price={tp.price} image={tp.mainPicture}/>)}
+                {topProducts.map(tp => <Product key={tp.id} id={tp.id} name={tp.name} price={tp.price} image={tp.mainPicture} alt={tp.alt}/>)}
             </Products>
         </TopSellingContainer>
     );

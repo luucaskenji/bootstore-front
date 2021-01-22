@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import { RiBillLine } from 'react-icons/ri';
@@ -50,7 +49,7 @@ const Main = styled.main`
     }
 `;
 
-const Button = styled(Link)`
+const Button = styled.a`
     font-size: 22px;
     margin-bottom: 30px;
     width: 210px;

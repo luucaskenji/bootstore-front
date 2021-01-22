@@ -6,7 +6,7 @@ import { ProductContext } from '../contexts/ProductContext';
 import Loading from './Loading';
 
 export default function Product(props) {
-    const { id, name, price, image } = props;
+    const { id, name, price, image, alt } = props;
     const { loading } = useContext(ProductContext);
 
     const correctPrice = Dinero({amount: parseInt(price), currency: 'BRL', precision: 2}).toFormat("$0,0.00");
@@ -17,7 +17,7 @@ export default function Product(props) {
                 ? <Loading />
                 : (
                     <>
-                        <Link to={`/produto/${id}`}><img src={image} /></Link>
+                        <Link to={`/produto/${id}`}><img src={image} alt={alt}/></Link>
                         <Caption>
                             <Link to={`/produto/${id}`}><p>{name}</p></Link>
                             <span>{correctPrice}</span>

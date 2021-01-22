@@ -9,6 +9,7 @@ import MainForm from '../components/MainForm';
 import DogBox from '../components/DogBox';
 
 import UserContext from '../contexts/UserContext';
+import { useCartContext } from '../contexts/CartContext';
 
 export default function CreditCard() {
     const history = useHistory();
@@ -18,7 +19,7 @@ export default function CreditCard() {
     const [ expiration, setExpiration ] = useState('');
     const [ cvv, setCvv ] = useState('');
     const { userId, addressId, paymentMethod, setOrderId } = useContext(UserContext);
-    const { cart } = useCartContext();
+    const { cart, setCart } = useCartContext();
     
 
     function submitForm (event) {
@@ -31,17 +32,18 @@ export default function CreditCard() {
         const body = { userId, addressId, cart, paymentMethod, cardName, cardNumber, expiration, cvv };
         axios
             .post(`http://localhost:3000/orders`, body)
-            .then(submitSucceeded)
-            .catch(submitFailed);
+            .then(res => submitSucceeded(res))
+            .catch(err => submitFailed(err));
     }
 
-    function submitSucceeded() {
+    function submitSucceeded(res) {
         setOrderId(res.data.id);
         setCart([]);
         history.push('/compra-concluida');
     }
 
-    function submitFailed () {
+    function submitFailed (err) {
+        console.log(err);
         alert('Não foi possível enviar seus dados, tente novamente');
         setClicked(false);
     }

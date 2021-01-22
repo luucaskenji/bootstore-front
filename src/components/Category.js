@@ -8,6 +8,8 @@ export default function Category(props) {
     const { products } = useContext(ProductContext);
     const filteredProducts = products.filter(p => p.categories.find(c => c.name === name));
 
+    console.log(filteredProducts);
+
     if(filteredProducts.length === 0) {
         return <></>
     }
@@ -17,7 +19,7 @@ export default function Category(props) {
             <h2>{name}</h2>
             <Products> 
                 {filteredProducts.map(fp => {
-                    return <Product key={fp.id} id={fp.id} name={fp.name} price={fp.price} image={fp.mainPicture}/>
+                    return <Product key={fp.id} id={fp.id} name={fp.name} price={fp.price} image={fp.mainPicture} alt={fp.alt}/>
                 })}
             </Products>
         </CategoryContainer>

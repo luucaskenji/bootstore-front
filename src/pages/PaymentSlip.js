@@ -26,10 +26,11 @@ export default function PaymentSlip() {
                 history.push('/compra-concluida');
                 setCart([]);
             })
-            .catch(submitFailed);
+            .catch(err => submitFailed(err));
     }
 
-    function submitFailed() {
+    function submitFailed(err) {
+        console.log(err);
         setClicked(false);
         alert('Não foi possível enviar seus dados, tente novamente');
     }
