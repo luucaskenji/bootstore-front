@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { ProductContext } from '../contexts/ProductContext';
 import Product from './Product';
 
 export default function TopSelling() {
-    const { topProducts } = useContext(ProductContext);
+    const { topProducts, setLoading } = useContext(ProductContext);
 
     return(
         <TopSellingContainer>
             <h2>Destaques</h2>
             <Products>
-                {topProducts.map(tp => <Product key={tp.id} name={tp.name} price={tp.price} image={tp.mainPicture}/>)}
+                {topProducts.map(tp => <Product key={tp.id} id={tp.id} name={tp.name} price={tp.price} image={tp.mainPicture}/>)}
             </Products>
         </TopSellingContainer>
     );
