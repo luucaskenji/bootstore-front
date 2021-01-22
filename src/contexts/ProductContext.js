@@ -6,6 +6,7 @@ export default function ProductProvider(props) {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [topProducts, setTopProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     return(
         <ProductContext.Provider value={{
@@ -14,7 +15,9 @@ export default function ProductProvider(props) {
             categories,
             setCategories,
             topProducts,
-            setTopProducts
+            setTopProducts,
+            loading,
+            setLoading
         }}>
             {props.children}
         </ProductContext.Provider>
