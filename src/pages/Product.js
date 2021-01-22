@@ -43,38 +43,40 @@ export default function Product() {
         
     }
 
-if (product === null) {
-    return  <OutterBox>
+    if (product === null) {
+        return  (
+            <OutterBox>
                 <Loading/>
-            </OutterBox>;
-}
-return (
-    <OutterBox>
-        <Main>
-            <PhotoSection>
-                <div className='main-photo'>
-                    {<img src={mainPhoto} />}
-                </div>
-                <div className='photo-menu'>
-                    {product.pictures.map(p =>
-                        <img src={p.url} key={p.id} onClick={() => setMainPhoto(p.url)} />
-                    )}
-                </div>
-            </PhotoSection>
+            </OutterBox>
+        );
+    }
+    return (
+        <OutterBox>
+            <Main>
+                <PhotoSection>
+                    <div className='main-photo'>
+                        {<img src={mainPhoto} />}
+                    </div>
+                    <div className='photo-menu'>
+                        {product.pictures.map(p =>
+                            <img src={p.url} key={p.id} onClick={() => setMainPhoto(p.url)} />
+                        )}
+                    </div>
+                </PhotoSection>
 
-            <DescriptionSection className='description'>
-                <h2>{product.name}</h2>
-                <h3>{product.units > 0 ? `R$ ${product.price / 100}` : 'Produto indisponível'}</h3>
-                <p>
-                    {product.description}
-                </p>
-                <MainButton clicked={clicked} available={available} onClick={updateCart}>
-                    {available ? clicked ? 'Adicionando ao carrinho' : 'Adicionar ao carrinho' : 'Produto Indisponível'} 
-                    </MainButton>
-            </DescriptionSection>
-        </Main>
-    </OutterBox>
-);
+                <DescriptionSection className='description'>
+                    <h2>{product.name}</h2>
+                    <h3>{product.units > 0 ? `R$ ${product.price / 100}` : 'Produto indisponível'}</h3>
+                    <p>
+                        {product.description}
+                    </p>
+                    <MainButton clicked={clicked} available={available} onClick={updateCart}>
+                        {available ? clicked ? 'Adicionando ao carrinho' : 'Adicionar ao carrinho' : 'Produto Indisponível'} 
+                        </MainButton>
+                </DescriptionSection>
+            </Main>
+        </OutterBox>
+    );
 }
 
 const Main = styled.main`
@@ -139,6 +141,3 @@ const PhotoSection = styled.section`
         }
     }
 `;
-
-//border-radius: 7px;
-// box-shadow: 3px 2px 10px 1px #B7B5B2;

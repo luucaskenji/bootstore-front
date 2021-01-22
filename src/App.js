@@ -13,7 +13,7 @@ import FinalPage from './pages/FinalPage';
 import Header from './components/Header';
 import { CartProvider } from './contexts/CartContext';
 import ProductProvider from './contexts/ProductContext';
-import {UserProvider} from './contexts/UserContext';
+import { UserProvider } from './contexts/UserContext';
 
 export default function App() {
   return (
