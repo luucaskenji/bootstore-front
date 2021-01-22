@@ -1,27 +1,37 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 import { RiBillLine } from 'react-icons/ri';
 import { AiFillCreditCard } from 'react-icons/ai';
 
+import UserContext from '../contexts/UserContext';
+
 export default function PaymentChoice () {
     const history = useHistory();
-    const [ clicked, setClicked ] = useState(false);
+    const { setPaymentMethod } = useContext(UserContext);
+
+    const choosePaymentMethod = method => {
+        setPaymentMethod(method);
+
+        method === 'credit card'
+            ? history.push('/pagamento/cartao')
+            : history.push('/pagamento/boleto');
+    }
   
     return (
         <OutterBox>
             <Main>
                 <h1>Escolher meio de pagamento</h1>
-                <Link to='/pagamento/cartao'>
+                <Button onClick={() => choosePaymentMethod('credit card')} >
                     <AiFillCreditCard />
                     Cartão de Crédito
-                </Link>
-                <Link to='/pagamento/boleto'>
+                </Button>
+                <Button onClick={() => choosePaymentMethod('payment slip')} >
                     <RiBillLine />
                     Boleto Bancário
-                </Link>
+                </Button>
             </Main>
         </OutterBox>
     );
@@ -38,12 +48,14 @@ const Main = styled.main`
         font-weight: 700;
         margin-bottom: 60px;
     }
-    a {
-        font-size: 22px;
-        margin-bottom: 30px;
+`;
 
-        svg {
-            margin: 0 5px -3px 0;
-        }
+const Button = styled(Link)`
+    font-size: 22px;
+    margin-bottom: 30px;
+    width: 210px;
+
+    svg {
+        margin: 0 5px -3px 0;
     }
 `;

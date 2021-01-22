@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -8,13 +8,25 @@ import MainButton from '../components/MainButton';
 import MainForm from '../components/MainForm';
 import DogBox from '../components/DogBox';
 
-export default function CreditCard () {
+import UserContext from '../contexts/UserContext';
+
+export default function CreditCard() {
     const history = useHistory();
     const [ clicked, setClicked ] = useState(false);
-    const [ cardName, setCardName ] = useState('');
-    const [ cardNumber, setCardNumber ] = useState('');
-    const [ expiration, setExpiration ] = useState('');
-    const [ cvv, setCvv ] = useState('');
+    const {
+        userId,
+        addressId,
+        paymentMethod,
+        cardName,
+        cardNumber,
+        expiration,
+        cvv,
+        setCardName,
+        setCardNumber,
+        setExpiration,
+        setCvv
+    } = useContext(UserContext);
+    
 
     function submitForm (event) {
         event.preventDefault();
@@ -23,11 +35,11 @@ export default function CreditCard () {
     }
 
     function proceedSubmiting () {
-        const body = { cardName, cardNumber, expiration, cvv };
-        //const request = axios.post(``, body);
-        //request.then(submitSucceeded);
-        //request.catch(submitFailed);
-        submitSucceeded();      //apagar essa linha depois de preencher o request do axios
+        const body = { userId, addressId, paymentMethod, cardName, cardNumber, expiration, cvv };
+        axios
+            .post(`http://localhost:3000/orders`, body)
+            .then(submitSucceeded)
+            .catch(submitFailed);
     }
 
     function submitSucceeded () {
@@ -66,7 +78,7 @@ export default function CreditCard () {
 
                     <label htmlFor='expiration'>Data de validade:</label>
                     <InputMask
-                        mask={'99/9999'} 
+                        mask={'99/99'} 
                         type='text' 
                         id='expiration'
                         value={expiration}
