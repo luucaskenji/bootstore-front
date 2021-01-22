@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import axios from 'axios';
 import { FaCheckCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
@@ -8,11 +9,10 @@ import UserContext from '../contexts/UserContext';
 
 export default function FinalPage() {
     const history = useHistory();
-    const { userId, addressId } = useContext(UserContext);    //Novo user context
+    const { userId, addressId } = useContext(UserContext);
     const { cart, setCart } = useCartContext();
-    const { orderId, setOrderId} = useState[''];
-    //const { user, setUser} = useUserContext();
-    //const user = {};
+    const { orderId, setOrderId} = useState('');
+    
     useEffect(() => {
         axios.post(`http://localhost:3000/orders`,{
             userId,
@@ -26,12 +26,12 @@ export default function FinalPage() {
             );
         });
     }, []);
-
+    //<p>Número do pedido: {orderId.padStart()}</p>   Pode ser melhor voltar a por o .padStart() nessa linha (ou não rs)
     return (
         <OutterBox>
             <Main>
                 <h1>Sua compra foi realizada com sucesso! <FaCheckCircle /></h1>
-                <p>Número do pedido: {orderId.padStart()}</p>
+                <p>Número do pedido: {orderId}</p>
             </Main>
         </OutterBox>
     );
