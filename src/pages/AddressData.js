@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import InputMask from 'react-input-mask';
+import UserContext from '../contexts/UserContext';
 import OutterBox from '../components/OutterBox';
 import MainButton from '../components/MainButton';
 import MainForm from '../components/MainForm';
@@ -9,39 +11,75 @@ import DogBox from '../components/DogBox';
 
 export default function AddressData () {
     const history = useHistory();
+    const { userId, setAddressId } = useContext(UserContext);
     const [ clicked, setClicked ] = useState(false);
+    const [ cep, setCep ] = useState('');
+    const [ streetName, setStreetName ] = useState('');
+    const [ streetNumber, setStreetNumber ] = useState('');
+    const [ complement, setComplement ] = useState('');
+    const [ neighbourhood, setNeighbourhood ] = useState('');
+    const [ city, setCity ] = useState('');
+    const [ state, setState ] = useState('');
+
+    function processCep (cepInput) {
+        setCep(cepInput);
+        if (cepInput[8] !== '_') {
+            setClicked(true);
+            const formattedCep = formatCep(cepInput);
+            sendCep(formattedCep);
+        }
+    }
+
+    function sendCep (cepNumber) {
+        const request = axios.get(`https://viacep.com.br/ws/${cepNumber}/json/`);
+        request.then( res => cepSucceeded(res.data));
+        request.catch( () => setClicked(false) );
+    }
+
+    function cepSucceeded (fullAddress) {
+        setStreetName(fullAddress.logradouro);
+        setNeighbourhood(fullAddress.bairro);
+        setCity(fullAddress.localidade);
+        setState(fullAddress.uf);
+        setClicked(false);
+    }
 
     function submitForm (event) {
         event.preventDefault();
-        //const fieldsFilled = checkFields();
-        const fieldsFilled = true;
-
-        if (fieldsFilled) {
+        const allowed = checkStateAndNumber();
+        
+        if (allowed) {
             setClicked(true);
             proceedSubmiting();
         }
         else {
-            alert('Por favor, preencha todos os campos');
+            alert('Por favor, preencha o número e o estado corretamente');
         }
     }
 
-    function checkFields () {
-        //
+    function checkStateAndNumber () {
+        const regexState = new RegExp('^[A-Z]{2}$');
+        const regexStreetNumber = new RegExp('^[0-9]+$');
+        const stateValid = regexState.test(state);
+        const streetNumberValid = regexStreetNumber.test(streetNumber);
+        return stateValid && streetNumberValid;
     }
 
-    function proceedSubmiting () {
-        //const request = axios.post(``, {});
-        //request.then(submitSucceeded);
-        //request.catch(submitFailed);
-        submitSucceeded();
+    function proceedSubmiting () {   
+        const body = { cep, streetName, streetNumber, neighbourhood, city, state };
+        if (complement) body.complement = complement;
+        const request = axios.post(`http://localhost:3000/users/${userId}/address`, body);
+        request.then( res => submitSucceeded(res.data));
+        request.catch( error => submitFailed(error));
     }
 
-    function submitSucceeded () {
-        setClicked(false);
+    function submitSucceeded (addressData) {
+        setAddressId(addressData.id);
         history.push('/escolher-pagamento');
     }
 
-    function submitFailed () {
+    function submitFailed (error) {
+        console.log(error);
         alert('Não foi possível enviar seus dados, tente novamente');
         setClicked(false);
     }
@@ -53,27 +91,71 @@ export default function AddressData () {
                     <h2>Endereço</h2>
 
                     <label htmlFor='cep'>CEP:</label>
-                    <input type='text' id='cep'/>
+                    <InputMask
+                        mask={'99999-999'}
+                        type='text' 
+                        id='cep'
+                        value={cep}
+                        onChange={(e) => processCep(e.target.value)}   
+                        required
+                    />
                     
-                    <label htmlFor='street'>Rua:</label>
-                    <input type='text' id='street'/>
+                    <label htmlFor='streetName'>Rua:</label>
+                    <input 
+                        type='text' 
+                        id='streetName'
+                        value={streetName}
+                        onChange={(e) => setStreetName(e.target.value)}   
+                        required
+                    />
 
                     <label htmlFor='streetNumber'>Número:</label>
-                    <input type='text' id='streetNumber'/>
+                    <input 
+                        type='text' 
+                        id='streetNumber'
+                        value={streetNumber}
+                        onChange={(e) => setStreetNumber(e.target.value)}   
+                        required
+                    />
 
                     <label htmlFor='complement'>Complemento:</label>
-                    <input type='text' id='complement'/>
+                    <input 
+                        type='text' 
+                        id='complement'
+                        value={complement}
+                        onChange={(e) => setComplement(e.target.value)}
+                    />
 
-                    <label htmlFor='neighborhood'>Bairro:</label>
-                    <input type='text' id='neighborhood'/>
+                    <label htmlFor='neighbourhood'>Bairro:</label>
+                    <input 
+                        type='text' 
+                        id='neighbourhood'
+                        value={neighbourhood}
+                        onChange={(e) => setNeighbourhood(e.target.value)}   
+                        required
+                    />
 
                     <label htmlFor='city'>Cidade:</label>
-                    <input type='text' id='city'/>
+                    <input 
+                        type='text' 
+                        id='city'
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}   
+                        required
+                    />
 
                     <label htmlFor='state'>Estado:</label>
-                    <input type='text' id='state'/>
+                    <input 
+                        type='text' 
+                        id='state'
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}   
+                        required
+                    />
 
-                    <MainButton available={true}>Ir para pagamento</MainButton>
+                    <MainButton available={true} disabled={clicked} clicked={clicked}>
+                        Ir para pagamento
+                    </MainButton>
                 </MainForm>
 
                 <DogBox>
@@ -91,5 +173,8 @@ const Main = styled.main`
     width: 850px;
 `;
 
-
-//width form 500px;
+function formatCep (cep) {
+    const hifenIndex = cep.indexOf('-');
+    const formattedCep = cep.slice(0, hifenIndex) + cep.slice(hifenIndex + 1, cep.length);
+    return formattedCep;
+}

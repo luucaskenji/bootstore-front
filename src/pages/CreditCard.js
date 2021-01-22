@@ -1,44 +1,36 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import InputMask from 'react-input-mask';
 import OutterBox from '../components/OutterBox';
 import MainButton from '../components/MainButton';
 import MainForm from '../components/MainForm';
 import DogBox from '../components/DogBox';
 
-
 export default function CreditCard () {
     const history = useHistory();
     const [ clicked, setClicked ] = useState(false);
+    const [ cardName, setCardName ] = useState('');
+    const [ cardNumber, setCardNumber ] = useState('');
+    const [ expiration, setExpiration ] = useState('');
+    const [ cvv, setCvv ] = useState('');
 
     function submitForm (event) {
         event.preventDefault();
-        //const fieldsFilled = checkFields();
-        const fieldsFilled = true;
-
-        if (fieldsFilled) {
-            setClicked(true);
-            proceedSubmiting();
-        }
-        else {
-            alert('Por favor, preencha todos os campos');
-        }
-    }
-
-    function checkFields () {
-        //
+        setClicked(true);
+        proceedSubmiting();
     }
 
     function proceedSubmiting () {
-        //const request = axios.post(``, {});
+        const body = { cardName, cardNumber, expiration, cvv };
+        //const request = axios.post(``, body);
         //request.then(submitSucceeded);
         //request.catch(submitFailed);
-        submitSucceeded();
+        submitSucceeded();      //apagar essa linha depois de preencher o request do axios
     }
 
     function submitSucceeded () {
-        setClicked(false);
         history.push('/compra-concluida');
     }
 
@@ -53,21 +45,50 @@ export default function CreditCard () {
                 <MainForm onSubmit={submitForm}>
                     <h2>Dados do cartão</h2>
 
-                    <label htmlFor='name'>Nome no cartão:</label>
-                    <input type='text' id='name'/>
+                    <label htmlFor='cardName'>Nome no cartão:</label>
+                    <input 
+                        type='text' 
+                        id='cardName'
+                        value={cardName}
+                        onChange={(e) => setCardName(e.target.value)}   
+                        required
+                    />
                     
                     <label htmlFor='cardNumber'>Número do cartão:</label>
-                    <input type='number' id='cardNumber'/>
+                    <InputMask
+                        mask={'9999 9999 9999 9999'} 
+                        type='text' 
+                        id='cardNumber'
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value)}   
+                        required
+                    />
 
-                    <label htmlFor='date'>Data de validade:</label>
-                    <input type='text' id='date'/>
+                    <label htmlFor='expiration'>Data de validade:</label>
+                    <InputMask
+                        mask={'99/9999'} 
+                        type='text' 
+                        id='expiration'
+                        value={expiration}
+                        onChange={(e) => setExpiration(e.target.value)}   
+                        required
+                    />
 
                     <label htmlFor='cvv'>CVV:</label>
-                    <input type='number' id='cvv'/>
+                    <InputMask
+                        mask={'999'} 
+                        type='text' 
+                        id='cvv'
+                        value={cvv}
+                        onChange={(e) => setCvv(e.target.value)}   
+                        required
+                    />
 
                     <div className='to-fill'></div>
 
-                    <MainButton>Finalizar compra</MainButton>
+                    <MainButton available={true} disabled={clicked} clicked={clicked}>
+                        Finalizar compra
+                    </MainButton>
                 </MainForm>
 
                 <DogBox>

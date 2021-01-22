@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
 
-
 export default function PaymentSlip () {  
     return (
         <OutterBox>

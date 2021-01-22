@@ -47,6 +47,3 @@ const Main = styled.main`
         }
     }
 `;
-
-
-//width form 500px;
