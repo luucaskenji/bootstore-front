@@ -27,7 +27,7 @@ export default function CreditCard () {
         //const request = axios.post(``, body);
         //request.then(submitSucceeded);
         //request.catch(submitFailed);
-        submitSucceeded();                  //apagar essa linha depois
+        submitSucceeded();      //apagar essa linha depois de preencher o request do axios
     }
 
     function submitSucceeded () {
