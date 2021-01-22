@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import OutterBox from '../components/OutterBox';
+import axios from 'axios';
 
-export default function PaymentSlip () {  
+import UserContext from '../contexts/UserContext';
+
+export default function PaymentSlip () {
+    const [loading, setLoading] = useState(true);
+
+    const submitFailed = () => {
+        alert('Não foi possível enviar seus dados, tente novamente');
+    }
+
+    useEffect(() => {
+        const { paymentMethod } = useContext(UserContext);
+
+        axios
+            .post('http://localhost:3000/orders', { paymentMethod })
+            .then(() => setLoading(false))
+            .catch(submitFailed);
+    }, []);
+
     return (
         <OutterBox>
             <Main>
                 <PaymentBox>
-                    <h1>Boleto gerado com sucesso!</h1>
+                    {!loading && <h1>Boleto gerado com sucesso!</h1>}
                     <StyledLink to='/compra-concluida'>Finalizar compra</StyledLink>
                 </PaymentBox>
             </Main>
